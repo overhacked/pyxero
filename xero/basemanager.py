@@ -72,6 +72,7 @@ class BaseManager(object):
     DECIMAL_FIELDS = (
         'Hours',
         'NumberOfUnit',
+        'Amount',
     )
     INTEGER_FIELDS = (
         'FinancialYearEndDay',
@@ -302,6 +303,10 @@ class BaseManager(object):
                     return 'Guid("%s")' % six.text_type(value)
                 if key in self.BOOLEAN_FIELDS:
                     return 'true' if value else 'false'
+                elif key in self.INTEGER_FIELDS:
+                    return '%d' % int(value)
+                elif key in self.DECIMAL_FIELDS:
+                    return '%.4f' % float(value)
                 elif key in self.DATE_FIELDS:
                     return 'DateTime(%s,%s,%s)' % (value.year, value.month, value.day)
                 elif key in self.DATETIME_FIELDS:
